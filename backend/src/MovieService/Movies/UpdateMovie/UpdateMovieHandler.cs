@@ -1,6 +1,4 @@
-﻿using Mapster;
-
-namespace MovieService.Movies.UpdateMovie;
+﻿namespace MovieService.Movies.UpdateMovie;
 
 public record UpdateMovieCommand(
     Guid Id,
