@@ -1,8 +1,12 @@
-﻿using Shared.CQRS;
+﻿using Shared.Caching;
+using Shared.CQRS;
 
 namespace MovieService.Movies.DeleteMovie;
 
-public record DeleteMovieCommand(Guid Id) : ICommand<DeleteMovieResult>;
+public record DeleteMovieCommand(Guid Id) : IInvalidateCacheCommand<DeleteMovieResult>
+{
+    public string[] Keys => [$"movie-by-id-{Id}"];
+}
 
 public record DeleteMovieResult(bool IsSuccess);
 

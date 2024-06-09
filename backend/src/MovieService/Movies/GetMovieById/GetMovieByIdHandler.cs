@@ -1,9 +1,14 @@
 ﻿using MovieService.Exceptions;
+using Shared.Caching;
 using Shared.CQRS;
 
 namespace MovieService.Movies.GetMovieById;
 
-public record GetMovieByIdQuery(Guid Id) : IQuery<GetMovieByIdResult>;
+public record GetMovieByIdQuery(Guid Id) : ICachedQuery<GetMovieByIdResult>
+{
+    public string Key => $"movie-by-id-{Id}";
+    public TimeSpan? Expiration => default;
+}
 
 public record GetMovieByIdResult(
     Guid Id,

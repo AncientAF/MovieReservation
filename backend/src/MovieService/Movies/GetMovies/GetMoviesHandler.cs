@@ -1,4 +1,5 @@
-﻿using Shared.CQRS;
+﻿using Shared.Caching;
+using Shared.CQRS;
 using Shared.Pagination;
 
 namespace MovieService.Movies.GetMovies;

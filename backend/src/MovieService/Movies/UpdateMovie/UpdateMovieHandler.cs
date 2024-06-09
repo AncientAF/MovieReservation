@@ -1,4 +1,5 @@
-﻿using Shared.CQRS;
+﻿using Shared.Caching;
+using Shared.CQRS;
 
 namespace MovieService.Movies.UpdateMovie;
 
@@ -8,7 +9,10 @@ public record UpdateMovieCommand(
     string Description,
     string Length,
     IEnumerable<Genre> Genres,
-    string PosterUrl) : ICommand<UpdateMovieResult>;
+    string PosterUrl) : IInvalidateCacheCommand<UpdateMovieResult>
+{
+    public string[] Keys => [$"movie-by-id-{Id}"];
+}
 
 public record UpdateMovieResult(bool IsSuccess);
 

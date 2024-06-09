@@ -5,17 +5,52 @@
     build:
       context: .
       dockerfile: backend/src/MovieService/Dockerfile
+    ports:
+      - "5003:8080"
+      - "5013:8081"
+    depends_on:
+      - movie-db
+      - movie-cache
+      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
+    container_name: elastic
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
   
-  movie.db:
+  movie-db:
     image: mongo
-    container_name: movie.db
+    container_name: movie-db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
     volumes:
-      - moviedbdata:/data/db
+      - movie-db-data:/data
+        
+  movie-cache:
+    image: redis:latest
+    container_name: movie-cache
+    ports:
+      - '6379:6379'
+    volumes:
+      - movie-cache:/data
       
   mongo-express:
     image: mongo-express
@@ -25,10 +60,12 @@
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@movie.db:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@movie-db:27017/
       ME_CONFIG_BASICAUTH: false
       
 volumes:
-  moviedbdata:
+  movie-db-data:
+  elasticsearch-data:
+  movie-cache:
 
   
