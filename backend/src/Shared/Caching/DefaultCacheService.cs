@@ -23,7 +23,7 @@ namespace Shared.Caching
             //Если ответ есть в кэше отправить ответ
             if (!string.IsNullOrEmpty(cachedResult))
             {
-                _logger.LogInformation("Retrieved cache with key: {Key} and expiration: {Expiration}", key, expiration);
+                _logger.LogInformation("Retrieved cache with key: {Key} and expiration: {Expiration}", key, expiration ?? DefaultExpiration);
                 return JsonSerializer.Deserialize<T>(cachedResult)!;
             }
             
@@ -37,7 +37,7 @@ namespace Shared.Caching
             
             await _distributedCache.SetStringAsync(key, JsonSerializer.Serialize(result), options, cancellationToken);
 
-            _logger.LogInformation("Cached request with key: {Key} and expiration: {Expiration}", key, expiration);
+            _logger.LogInformation("Cached request with key: {Key} and expiration: {Expiration}", key, expiration ?? DefaultExpiration);
             
             return result;
         }

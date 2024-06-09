@@ -7,17 +7,18 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["backend/src/Movie/Movie.csproj", "backend/src/Movie/"]
-RUN dotnet restore "backend/src/Movie/Movie.csproj"
+COPY ["backend/src/MovieService/MovieService.csproj", "backend/src/MovieService/"]
+COPY ["backend/src/Shared/Shared.csproj", "backend/src/Shared/"]
+RUN dotnet restore "backend/src/MovieService/MovieService.csproj"
 COPY . .
-WORKDIR "/src/backend/src/Movie"
-RUN dotnet build "Movie.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/backend/src/MovieService"
+RUN dotnet build "MovieService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Movie.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "MovieService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Movie.dll"]
+ENTRYPOINT ["dotnet", "MovieService.dll"]

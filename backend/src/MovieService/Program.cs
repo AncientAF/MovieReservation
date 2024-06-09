@@ -9,8 +9,10 @@ using Shared.Exceptions.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var elasticString = builder.Configuration.GetConnectionString("ElasticSearch");
+
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Elasticsearch(new [] { new Uri("http://localhost:9200" )}, opts =>
+    .WriteTo.Elasticsearch(new [] { new Uri(elasticString!)}, opts =>
     {
         opts.DataStream = new DataStreamName("logs", "movie-service", "development");
         opts.BootstrapMethod = BootstrapMethod.Failure;
