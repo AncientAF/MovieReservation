@@ -1,6 +1,34 @@
 ﻿services:
-  movie:
-    image: movie
+  movieservice:
+    image: movieservice
+    container_name: movieservice
     build:
       context: .
-      dockerfile: backend/src/Movie/Dockerfile
+      dockerfile: backend/src/MovieService/Dockerfile
+  
+  movie.db:
+    image: mongo
+    container_name: movie.db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - moviedbdata:/data/db
+      
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@movie.db:27017/
+      ME_CONFIG_BASICAUTH: false
+      
+volumes:
+  moviedbdata:
+
+  

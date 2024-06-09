@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace BuildingBlocks.CQRS;
+﻿namespace Shared.CQRS;
 
 public interface ICommand<out TResponse> : IRequest<TResponse>;
 public interface ICommand : ICommand<Unit>;

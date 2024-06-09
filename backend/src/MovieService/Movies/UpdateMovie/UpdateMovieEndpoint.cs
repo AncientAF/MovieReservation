@@ -7,6 +7,7 @@ public record UpdateMovieRequest(
     string Length,
     IEnumerable<Genre> Genres,
     string PosterUrl);
+
 public record UpdateMovieResponse(bool IsSuccess);
 
 public class UpdateMovieEndpoint : ICarterModule
@@ -24,8 +25,9 @@ public class UpdateMovieEndpoint : ICarterModule
                 return Results.Ok(response);
             })
             .WithName("UpdateMovie")
-            .Produces<UpdateMovieResponse>(StatusCodes.Status200OK)
+            .Produces<UpdateMovieResponse>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status404NotFound);
+            .ProducesProblem(StatusCodes.Status404NotFound)
+            .IncludeInOpenApi();
     }
 }

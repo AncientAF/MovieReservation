@@ -1,4 +1,7 @@
-﻿namespace MovieService.Movies.GetMovieById;
+﻿using MovieService.Exceptions;
+using Shared.CQRS;
+
+namespace MovieService.Movies.GetMovieById;
 
 public record GetMovieByIdQuery(Guid Id) : IQuery<GetMovieByIdResult>;
 
@@ -10,12 +13,15 @@ public record GetMovieByIdResult(
     IEnumerable<Genre> Genres,
     string PosterUrl);
 
-public class GetMovieByIdCommandHandler(MongoDbService dbService)
-    : IQueryHandler<GetMovieByIdQuery, GetMovieByIdResult> 
+public class GetMovieByIdQueryHandler(MongoDbService dbService)
+    : IQueryHandler<GetMovieByIdQuery, GetMovieByIdResult>
 {
-    public async Task<GetMovieByIdResult> Handle(GetMovieByIdQuery request, CancellationToken cancellationToken)
+    public async Task<GetMovieByIdResult> Handle(GetMovieByIdQuery query, CancellationToken cancellationToken)
     {
-        var result = await dbService.GetAsync(request.Id, cancellationToken);
+        var result = await dbService.GetAsync(query.Id, cancellationToken);
+
+        if (result == null)
+            throw new MovieNotFoundException(query.Id);
 
         return result.Adapt<GetMovieByIdResult>();
     }

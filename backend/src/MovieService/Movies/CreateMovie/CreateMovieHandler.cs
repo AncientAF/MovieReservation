@@ -1,4 +1,4 @@
-﻿using Mapster;
+﻿using Shared.CQRS;
 
 namespace MovieService.Movies.CreateMovie;
 
@@ -8,6 +8,7 @@ public record CreateMovieCommand(
     string Length,
     IEnumerable<Genre> Genres,
     string PosterUrl) : ICommand<CreateMovieResult>;
+
 public record CreateMovieResult(Guid Id);
 
 public class CreateMovieCommandHandler(MongoDbService dbService)
@@ -20,4 +21,3 @@ public class CreateMovieCommandHandler(MongoDbService dbService)
         return new CreateMovieResult(result);
     }
 }
-

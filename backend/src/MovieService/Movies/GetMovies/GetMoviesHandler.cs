@@ -1,8 +1,10 @@
-﻿using BuildingBlocks.Pagination;
+﻿using Shared.CQRS;
+using Shared.Pagination;
 
 namespace MovieService.Movies.GetMovies;
 
 public record GetMoviesQuery(PaginationRequest Request) : IQuery<GetMoviesResult>;
+
 public record GetMoviesResult(PaginatedResult<Movie> Movies);
 
 public class GetMoviesQueryHandler(MongoDbService dbService)

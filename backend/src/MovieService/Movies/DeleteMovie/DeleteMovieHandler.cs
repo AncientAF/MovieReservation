@@ -1,6 +1,9 @@
-﻿namespace MovieService.Movies.DeleteMovie;
+﻿using Shared.CQRS;
+
+namespace MovieService.Movies.DeleteMovie;
 
 public record DeleteMovieCommand(Guid Id) : ICommand<DeleteMovieResult>;
+
 public record DeleteMovieResult(bool IsSuccess);
 
 public class DeleteMovieCommandHandler(MongoDbService dbService)
@@ -8,8 +11,8 @@ public class DeleteMovieCommandHandler(MongoDbService dbService)
 {
     public async Task<DeleteMovieResult> Handle(DeleteMovieCommand command, CancellationToken cancellationToken)
     {
-        await dbService.RemoveAsync(command.Id, cancellationToken);
+        var result = await dbService.RemoveAsync(command.Id, cancellationToken);
 
-        return new DeleteMovieResult(true);
+        return new DeleteMovieResult(result);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace MovieService.Movies.UpdateMovie;
+﻿using Shared.CQRS;
+
+namespace MovieService.Movies.UpdateMovie;
 
 public record UpdateMovieCommand(
     Guid Id,
@@ -7,6 +9,7 @@ public record UpdateMovieCommand(
     string Length,
     IEnumerable<Genre> Genres,
     string PosterUrl) : ICommand<UpdateMovieResult>;
+
 public record UpdateMovieResult(bool IsSuccess);
 
 public class UpdateMovieCommandHandler(MongoDbService dbService)
@@ -14,8 +17,8 @@ public class UpdateMovieCommandHandler(MongoDbService dbService)
 {
     public async Task<UpdateMovieResult> Handle(UpdateMovieCommand command, CancellationToken cancellationToken)
     {
-        await dbService.UpdateAsync(command.Adapt<Movie>(), cancellationToken);
+        var result = await dbService.UpdateAsync(command.Adapt<Movie>(), cancellationToken);
 
-        return new UpdateMovieResult(true);
+        return new UpdateMovieResult(result);
     }
 }

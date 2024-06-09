@@ -13,17 +13,17 @@ public class GetMovieByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-
         app.MapGet("/movies/{id:guid}", async (Guid id, ISender sender) =>
-        {
-            var result = await sender.Send(new GetMovieByIdQuery(id));
+            {
+                var result = await sender.Send(new GetMovieByIdQuery(id));
 
-            var response = result.Adapt<GetMovieByIdResponse>();
+                var response = result.Adapt<GetMovieByIdResponse>();
 
-            return Results.Ok(response);
-        })
-        .WithName("GetMovieById")
-        .Produces<GetMovieByIdResponse>(StatusCodes.Status200OK)
-        .ProducesProblem(StatusCodes.Status400BadRequest);
+                return Results.Ok(response);
+            })
+            .WithName("GetMovieById")
+            .Produces<GetMovieByIdResponse>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .IncludeInOpenApi();
     }
 }

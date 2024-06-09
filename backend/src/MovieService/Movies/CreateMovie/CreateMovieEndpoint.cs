@@ -1,7 +1,4 @@
-﻿using Mapster;
-using MediatR;
-
-namespace MovieService.Movies.CreateMovie;
+﻿namespace MovieService.Movies.CreateMovie;
 
 public record CreateMovieRequest(
     string Name,
@@ -17,17 +14,18 @@ public class CreateMovieEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/products", async (CreateMovieRequest request, ISender sender) =>
-                {
-                    var command = request.Adapt<CreateMovieCommand>();
+            {
+                var command = request.Adapt<CreateMovieCommand>();
 
-                    var result = await sender.Send(command);
+                var result = await sender.Send(command);
 
-                    var response = result.Adapt<CreateMovieResponse>();
+                var response = result.Adapt<CreateMovieResponse>();
 
-                    return Results.Created($"/movies/{response.Id}", response);
-                })
+                return Results.Created($"/movies/{response.Id}", response);
+            })
             .WithName("CreateMovie")
             .Produces<CreateMovieResponse>(StatusCodes.Status201Created)
-            .ProducesProblem(StatusCodes.Status400BadRequest);
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .IncludeInOpenApi();
     }
 }
