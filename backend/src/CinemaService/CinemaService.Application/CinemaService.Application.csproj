@@ -7,7 +7,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\Shared.csproj" />
+        <ProjectReference Include="..\..\Shared\Shared.csproj"/>
+        <ProjectReference Include="..\CinemaService.Core\CinemaService.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Cinemas\EventHandlers\"/>
+        <Folder Include="Exceptions\"/>
+        <Folder Include="Halls\EventHandlers\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.3.24172.4"/>
     </ItemGroup>
 
 </Project>

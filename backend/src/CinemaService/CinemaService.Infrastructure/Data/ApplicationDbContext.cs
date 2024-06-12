@@ -2,7 +2,7 @@
 
 namespace CinemaService.Infrastructure.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options), IApplicationDbContext
 {
     public DbSet<Cinema> Cinemas => Set<Cinema>();
     public DbSet<Hall> Halls => Set<Hall>();

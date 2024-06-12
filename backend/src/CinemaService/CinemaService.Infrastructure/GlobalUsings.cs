@@ -1,5 +1,6 @@
 // Global using directives
 
+global using CinemaService.Application.Data;
 global using CinemaService.Core.Abstractions;
 global using CinemaService.Core.Models;
 global using CinemaService.Core.ValueObjects;

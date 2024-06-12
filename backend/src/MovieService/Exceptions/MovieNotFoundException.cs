@@ -2,9 +2,4 @@
 
 namespace MovieService.Exceptions;
 
-public class MovieNotFoundException : NotFoundException
-{
-    public MovieNotFoundException(object key) : base("Movie", key)
-    {
-    }
-}
+public class MovieNotFoundException(object key) : NotFoundException("Movie", key);

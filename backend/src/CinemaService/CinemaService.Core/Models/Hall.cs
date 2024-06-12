@@ -21,10 +21,13 @@ public class Hall : Aggregate<HallId>
         return hall;
     }
 
-    public void Update(CinemaId cinemaId, string name)
+    public void Update(CinemaId cinemaId, string name, IEnumerable<Seat> seats)
     {
         CinemaId = cinemaId;
         Name = name;
+        
+        _seats.Clear();
+        _seats.AddRange(seats);
 
         AddDomainEvent(new HallUpdatedEvent());
     }

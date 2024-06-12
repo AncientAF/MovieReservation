@@ -1,4 +1,5 @@
-﻿using CinemaService.Infrastructure.Data;
+﻿using CinemaService.Core.Repositories;
+using CinemaService.Infrastructure.Data;
 using CinemaService.Infrastructure.Data.Interceptors;
 using Microsoft.Extensions.Configuration;
 
@@ -19,7 +20,10 @@ public static class DependencyInjection
             options.UseNpgsql(connection);
         });
 
-        //services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+        
+        services.AddScoped<IHallRepository, IHallRepository>();
+        services.AddScoped<ICinemaRepository, ICinemaRepository>();
 
         return services;
     }
