@@ -8,13 +8,14 @@ public class CinemaConfiguration : IEntityTypeConfiguration<Cinema>
         builder.Property(ci => ci.Id).HasConversion(
             cinemaId => cinemaId.Value,
             dbId => CinemaId.Of(dbId));
-        
+
         builder.Property(c => c.Name).IsRequired();
 
-        builder.HasMany<Hall>()
+        builder.HasMany(c => c.Halls)
             .WithOne()
             .HasForeignKey(h => h.CinemaId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.ComplexProperty(c => c.Address, addressBuilder =>
         {

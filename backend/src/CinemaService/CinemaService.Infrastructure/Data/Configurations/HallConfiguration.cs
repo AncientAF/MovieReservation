@@ -6,20 +6,25 @@ public class HallConfiguration : IEntityTypeConfiguration<Hall>
     {
         builder.HasKey(h => h.Id);
         builder.Property(hi => hi.Id).HasConversion(
-            cinemaId => cinemaId.Value,
+            halId => halId.Value,
             dbId => HallId.Of(dbId));
+
+        /*builder.Property(hi => hi.CinemaId).HasConversion(
+            cinemaId => cinemaId.Value,
+            dbId => CinemaId.Of(dbId));*/
 
         builder.Property(h => h.Name).IsRequired();
 
         builder.HasOne<Cinema>()
-            .WithMany()
+            .WithMany(c => c.Halls)
             .HasForeignKey(h => h.CinemaId)
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+        ;
 
-        builder.HasMany<Seat>()
+        builder.HasMany(h => h.Seats)
             .WithOne()
             .HasForeignKey(s => s.HallId)
             .IsRequired();
-
     }
 }

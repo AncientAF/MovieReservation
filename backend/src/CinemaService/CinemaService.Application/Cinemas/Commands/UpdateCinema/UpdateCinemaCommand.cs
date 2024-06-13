@@ -3,9 +3,9 @@ using Shared.Caching;
 
 namespace CinemaService.Application.Cinemas.Commands.UpdateCinema;
 
-public record UpdateCinemaCommand(CinemaDto CinemaDto) : IInvalidateCacheCommand<UpdateCinemaResult>
+public record UpdateCinemaCommand(CinemaDto Cinema) : IInvalidateCacheCommand<UpdateCinemaResult>
 {
-    public string[] Keys => [$"cinema-id-{CinemaDto.Id}"];
+    public string[] Keys => [$"cinema-id-{Cinema.Id}"];
 }
 
 public record UpdateCinemaResult(bool IsSuccess);
@@ -14,10 +14,10 @@ public class UpdateCinemaCommandValidator : AbstractValidator<UpdateCinemaComman
 {
     public UpdateCinemaCommandValidator()
     {
-        RuleFor(c => c.CinemaDto.Id).NotEmpty().WithMessage("Id is required");
-        
-        RuleFor(c => c.CinemaDto.Name).NotEmpty().WithMessage("Name is required");
+        RuleFor(c => c.Cinema.Id).NotEmpty().WithMessage("Id is required");
 
-        RuleFor(c => c.CinemaDto.Address).NotEmpty().WithMessage("Address is required");
+        RuleFor(c => c.Cinema.Name).NotEmpty().WithMessage("Name is required");
+
+        RuleFor(c => c.Cinema.Address).NotEmpty().WithMessage("Address is required");
     }
 }

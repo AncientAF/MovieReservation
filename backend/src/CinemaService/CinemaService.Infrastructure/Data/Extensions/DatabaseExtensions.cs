@@ -14,12 +14,12 @@ public static class DatabaseExtensions
 
         await SeedAsync(context);
     }
-    
+
     private static async Task SeedAsync(ApplicationDbContext context)
     {
         await SeedCinemasAsync(context);
     }
-    
+
     private static async Task SeedCinemasAsync(ApplicationDbContext context)
     {
         if (!await context.Cinemas.AnyAsync())

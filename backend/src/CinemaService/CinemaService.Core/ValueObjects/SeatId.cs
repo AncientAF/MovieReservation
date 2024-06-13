@@ -1,6 +1,6 @@
 ﻿namespace CinemaService.Core.ValueObjects;
 
-public class SeatId
+public record SeatId
 {
     private SeatId(Guid value)
     {

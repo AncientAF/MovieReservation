@@ -5,7 +5,7 @@ public class UpdateCinemaCommandHandler(ICinemaRepository cinemaRepository)
 {
     public async Task<UpdateCinemaResult> Handle(UpdateCinemaCommand command, CancellationToken cancellationToken)
     {
-        var (cinemaId, name, addressDto, halls) = command.CinemaDto;
+        var (cinemaId, name, addressDto, halls) = command.Cinema;
 
         var cinema = CinemaCreation.CreateCinema(cinemaId, addressDto, name, halls);
 

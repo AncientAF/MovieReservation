@@ -25,7 +25,7 @@ public class Hall : Aggregate<HallId>
     {
         CinemaId = cinemaId;
         Name = name;
-        
+
         _seats.Clear();
         _seats.AddRange(seats);
 
@@ -37,7 +37,7 @@ public class Hall : Aggregate<HallId>
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(row);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(number);
 
-        var seat = new Seat(id, this.Id, row, number);
+        var seat = new Seat(id, Id, row, number);
         _seats.Add(seat);
     }
 

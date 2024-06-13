@@ -1,6 +1,6 @@
 ﻿namespace CinemaService.Core.ValueObjects;
 
-public class Address
+public record Address
 {
     protected Address()
     {

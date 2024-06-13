@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CinemaService.Infrastructur
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{F2757402-C420-4E43-9908-3CA6DD5A9116}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Messaging", "Shared.Messaging\Shared.Messaging.csproj", "{0843ADDF-AE18-459A-95C8-5A297D145952}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Messaging", "backend\src\Shared.Messaging\Shared.Messaging.csproj", "{0843ADDF-AE18-459A-95C8-5A297D145952}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

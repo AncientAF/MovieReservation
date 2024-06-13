@@ -5,7 +5,7 @@ public class UpdateHallCommandHandler(IHallRepository hallRepository)
 {
     public async Task<UpdateHallResult> Handle(UpdateHallCommand command, CancellationToken cancellationToken)
     {
-        var (hallId, cinemaId, name, seats) = command.HallDto;
+        var (hallId, cinemaId, name, seats) = command.Hall;
 
         var hall = HallCreation.CreateHall(hallId, cinemaId, name, seats);
 

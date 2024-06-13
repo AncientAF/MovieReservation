@@ -12,4 +12,9 @@ public static class CinemaExtensions
             cinema.Halls.ToDto()
         );
     }
+
+    public static IEnumerable<CinemaDto> ToDto(this IEnumerable<Cinema> cinemas)
+    {
+        return cinemas.Select(c => c.ToDto());
+    }
 }

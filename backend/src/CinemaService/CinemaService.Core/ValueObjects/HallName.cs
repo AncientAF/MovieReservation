@@ -1,6 +1,6 @@
 ﻿namespace CinemaService.Core.ValueObjects;
 
-public class HallName
+public record HallName
 {
     private HallName(string value)
     {

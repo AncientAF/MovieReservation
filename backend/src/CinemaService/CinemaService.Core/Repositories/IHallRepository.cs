@@ -4,8 +4,7 @@ public interface IHallRepository
 {
     Task<Hall> GetByIdAsync(HallId id, CancellationToken cancellationToken);
     Task<List<Hall>> GetByCinemaAsync(CinemaId cinemaId, CancellationToken cancellationToken);
-    Task<(List<Hall> halls, long count)> GetPaginatedAsync(int pageSize, int pageIndex, CancellationToken cancellationToken);
     Task<HallId> CreateAsync(Hall hall, CancellationToken cancellationToken);
     Task UpdateAsync(Hall updatedHall, CancellationToken cancellationToken);
-    Task DeleteAsync(HallId id, CancellationToken cancellationToken);   
+    Task DeleteAsync(HallId id, CancellationToken cancellationToken);
 }

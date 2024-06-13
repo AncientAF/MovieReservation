@@ -25,7 +25,7 @@ public class Cinema : Aggregate<CinemaId>
     {
         Name = name;
         Address = address;
-        
+
         _halls.Clear();
         _halls.AddRange(halls);
 

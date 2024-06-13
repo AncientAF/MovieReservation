@@ -5,7 +5,7 @@ public class DeleteHallCommandHandler(IHallRepository hallRepository)
 {
     public async Task<DeleteHallResult> Handle(DeleteHallCommand command, CancellationToken cancellationToken)
     {
-        await hallRepository.DeleteAsync(HallId.Of(Guid.NewGuid()), cancellationToken);
+        await hallRepository.DeleteAsync(HallId.Of(command.Id), cancellationToken);
 
         return new DeleteHallResult(true);
     }

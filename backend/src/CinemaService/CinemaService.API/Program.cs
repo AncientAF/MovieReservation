@@ -1,20 +1,21 @@
-using Carter;
+using CinemaService.API;
+using CinemaService.Application;
+using CinemaService.Infrastructure;
+using CinemaService.Infrastructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddCarter();
+builder.Services
+    .AddApplicationServices(configuration)
+    .AddInfrastructureServices(configuration)
+    .AddApiServices(configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseApiServices();
 
-app.MapCarter();
+if (app.Environment.IsDevelopment())
+    await app.InitialiseDatabaseAsync();
 
 app.Run();

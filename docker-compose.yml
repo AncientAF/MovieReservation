@@ -2,6 +2,7 @@
   movieservice:
     image: movieservice
     container_name: movieservice
+    restart: always
     build:
       context: .
       dockerfile: backend/src/MovieService/Dockerfile
@@ -15,6 +16,34 @@
     environment:
       - ConnectionStrings__Cache=movie-cache:6379
       - MongoDbSettings__ConnectionUri=mongodb://root:example@movie-db:27017
+      - ConnectionStrings__ElasticSearch=http://elasticsearch:9200
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ~/.aspnet/https:/https:ro
+
+  cinemaservice:
+    image: cinemaservice.api
+    container_name: cinemaservice
+    restart: always
+    build:
+      context: .
+      dockerfile: backend/src/CinemaService/CinemaService.API/Dockerfile
+    ports:
+      - "5002:8080"
+      - "5012:8081"
+    depends_on:
+      - cinema-db
+      - cinema-cache
+      - elasticsearch
+    environment:
+      - ConnectionStrings__Cache=cinema-cache:6379
+      - ConnectionStrings__Database=Server=cinema-db;port=5432;Database=CinemaDb;User Id=postgres;Password=postgres;Include Error Detail=true
       - ConnectionStrings__ElasticSearch=http://elasticsearch:9200
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
@@ -77,7 +106,31 @@
       ME_CONFIG_MONGODB_URL: mongodb://root:example@movie-db:27017/
       ME_CONFIG_BASICAUTH: false
       
+  cinema-db:
+    image: postgres
+    container_name: cinema-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=CinemaDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - cinema-db-data:/var/lib/postresql/data/
+
+  cinema-cache:
+    image: redis:latest
+    container_name: cinema-cache
+    ports:
+      - '6380:6379'
+    volumes:
+      - cinema-cache:/data
+      
 volumes:
   movie-db-data:
-  elasticsearch-data:
   movie-cache:
+  cinema-db-data:
+  cinema-cache:
+  elasticsearch-data:
+
+  

@@ -1,6 +1,6 @@
 ﻿namespace CinemaService.Core.ValueObjects;
 
-public class CinemaId
+public record CinemaId
 {
     private CinemaId(Guid value)
     {

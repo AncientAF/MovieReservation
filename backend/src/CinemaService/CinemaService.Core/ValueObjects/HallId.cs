@@ -1,6 +1,6 @@
 ﻿namespace CinemaService.Core.ValueObjects;
 
-public class HallId
+public record HallId
 {
     private HallId(Guid value)
     {
