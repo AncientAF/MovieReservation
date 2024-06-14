@@ -54,6 +54,32 @@
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
       - ~/.aspnet/https:/https:ro
+        
+  ticketservice:
+    image: ticketservice
+    container_name: ticketservice
+    restart: always
+    build:
+      context: .
+      dockerfile: backend/src/TicketService/Dockerfile
+    ports:
+      - "5005:8080"
+      - "5015:8081"
+    depends_on:
+      - ticket-db
+      - elasticsearch
+    environment:
+      - ConnectionStrings__Database=Server=ticket-db;port=5432;Database=TicketDb;User Id=postgres;Password=postgres;Include Error Detail=true
+      - ConnectionStrings__ElasticSearch=http://elasticsearch:9200
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ~/.aspnet/https:/https:ro
       
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.14.0
@@ -125,12 +151,23 @@
       - '6380:6379'
     volumes:
       - cinema-cache:/data
+  
+  ticket-db:
+    image: postgres
+    container_name: ticket-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=TicketDb
+    ports:
+      - "5433:5432"
+    volumes:
+      - ticket-db-data:/var/lib/postresql/data/
       
 volumes:
   movie-db-data:
   movie-cache:
   cinema-db-data:
   cinema-cache:
+  ticket-db-data:
   elasticsearch-data:
-
-  

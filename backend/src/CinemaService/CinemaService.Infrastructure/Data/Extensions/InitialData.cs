@@ -25,7 +25,14 @@ public static class InitialData
                 "1-й этаж");
             var hall4 = Hall.Create(HallId.Of(new Guid("30D655E8-7655-4CDC-B208-6726EDE91D22")), cinemas[1].Id,
                 "2-й этаж");
+            
+            //seats for ticketService initial data
+            hall1.Add(SeatId.Of(new Guid("D2123185-8167-4D2A-B604-3E7469B08CC8")),33, 44 );
+            hall2.Add(SeatId.Of(new Guid("8C5456B4-935E-44FA-9F53-738FB1ED0BB1")),55, 66 ); 
+            hall3.Add(SeatId.Of(new Guid("40F8C713-6C6D-4CA6-91B8-8B2E7DC9F09C")),77, 88 ); 
 
+            
+            
             CreateSeatsForHall(hall1);
             CreateSeatsForHall(hall2);
             CreateSeatsForHall(hall3);
